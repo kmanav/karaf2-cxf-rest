@@ -74,7 +74,7 @@ public class CustomerService {
      */
     @GET
     @Path("/customers/{id}/")
-    @Produces("application/xml")
+    @Produces("application/json")
     @ApiOperation(value = "Find Customer by ID", notes = "More notes about this method", response = Customer.class)
     @ApiResponses(value = {
       @ApiResponse(code = 500, message = "Invalid ID supplied"),
@@ -83,8 +83,17 @@ public class CustomerService {
     public Customer getCustomer(@ApiParam(value = "ID of Customer to fetch", required = true) @PathParam("id") String id) {
         LOG.info("Invoking getCustomer, Customer id is: {}", id);
         long idNumber = Long.parseLong(id);
-        Customer c = customers.get(idNumber);
-        return c;
+        //Customer c = customers.get(idNumber);
+        Customer customer = customers.get(idNumber);
+        
+        if (jaxrsContext.getHttpHeaders().getMediaType().getSubtype().equals("json")) {
+        	Response.ok().type("application/json").entity(customer);
+        	return customer;
+        } else {
+            return customer;
+        }        
+       
+        //return c;
     }
 
     /**
@@ -207,6 +216,10 @@ public class CustomerService {
         Customer c = new Customer();
         c.setName("John");
         c.setId(123);
+        c.setAddress("123 Main St.");
+        c.setNumOrders(5);
+        c.setRevenue(345.78);
+        c.setType("Business");
         customers.put(c.getId(), c);
 
         Order o = new Order();

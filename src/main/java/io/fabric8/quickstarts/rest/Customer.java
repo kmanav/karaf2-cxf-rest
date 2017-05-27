@@ -33,6 +33,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Customer {
     private long id;
     private String name;
+    private String address;
+    private int numOrders;
+    private double revenue;
+    private String type;
+
 
     public long getId() {
         return id;
@@ -49,4 +54,35 @@ public class Customer {
     public void setName(String name) {
         this.name = name;
     }
+    public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public int getNumOrders() {
+		return numOrders;
+	}
+
+	public void setNumOrders(int numOrders) {
+		this.numOrders = numOrders;
+	}
+
+	public double getRevenue() {
+		return revenue;
+	}
+
+	public void setRevenue(double revenue) {
+		this.revenue = revenue;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 }
