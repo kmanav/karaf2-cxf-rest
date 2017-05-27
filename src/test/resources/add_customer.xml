@@ -1,3 +1,7 @@
 <Customer xmlns="http://rest.fabric.quickstarts.fabric8.io/">
     <name>Jack</name>
+    <address>123 Main St.</address>
+    <numOrders>4</numOrders>
+    <revenue>123.45</revenue>
+    <type>Business</type>
 </Customer>
