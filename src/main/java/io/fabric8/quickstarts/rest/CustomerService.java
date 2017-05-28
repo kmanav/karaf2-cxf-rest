@@ -85,15 +85,17 @@ public class CustomerService {
         long idNumber = Long.parseLong(id);
         //Customer c = customers.get(idNumber);
         Customer customer = customers.get(idNumber);
+    	Response.ok().type("application/json").entity(customer);
+    	return customer;
+    /*
         
         if (jaxrsContext.getHttpHeaders().getMediaType().getSubtype().equals("json")) {
         	Response.ok().type("application/json").entity(customer);
         	return customer;
         } else {
             return customer;
-        }        
-       
-        //return c;
+        }
+        */        
     }
 
     /**
@@ -145,7 +147,8 @@ public class CustomerService {
      */
     @POST
     @Path("/customers/")
-    @Consumes({"application/xml", "application/json" })
+    //@Consumes({"application/xml", "application/json" })
+    @Consumes({"application/json" })    
     @ApiOperation(value = "Add a new Customer")
     @ApiResponses(value = { @ApiResponse(code = 500, message = "Invalid ID supplied"), })
     public Response addCustomer(@ApiParam(value = "Customer object that needs to be updated", required = true)
@@ -154,11 +157,15 @@ public class CustomerService {
         customer.setId(++currentId);
 
         customers.put(customer.getId(), customer);
+        return Response.ok().type("application/json").entity(customer).build();
+        /*
         if (jaxrsContext.getHttpHeaders().getMediaType().getSubtype().equals("json")) {
             return Response.ok().type("application/json").entity(customer).build();
         } else {
             return Response.ok().type("application/xml").entity(customer).build();
         }
+        */
+        
     }
 
     /**
