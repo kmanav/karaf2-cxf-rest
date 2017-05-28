@@ -85,8 +85,9 @@ public class CustomerService {
         long idNumber = Long.parseLong(id);
         //Customer c = customers.get(idNumber);
         Customer customer = customers.get(idNumber);
-    	Response.ok().type("application/json").entity(customer);
-    	return customer;
+    	//Response.ok().type("application/json").entity(customer);
+    	Response.ok().entity(customer);
+        return customer;
     /*
         
         if (jaxrsContext.getHttpHeaders().getMediaType().getSubtype().equals("json")) {
@@ -111,7 +112,8 @@ public class CustomerService {
      */
     @PUT
     @Path("/customers/")
-    @Consumes({"application/xml", "application/json" })
+//    @Consumes({"application/xml", "application/json" })
+    @Consumes({"application/json" })
     @ApiOperation(value = "Update an existing Customer")
     @ApiResponses(value = {
                            @ApiResponse(code = 500, message = "Invalid ID supplied"),
@@ -157,7 +159,9 @@ public class CustomerService {
         customer.setId(++currentId);
 
         customers.put(customer.getId(), customer);
-        return Response.ok().type("application/json").entity(customer).build();
+        return Response.ok().build();
+//        return Response.ok().type("application/json").entity(customer).build();
+
         /*
         if (jaxrsContext.getHttpHeaders().getMediaType().getSubtype().equals("json")) {
             return Response.ok().type("application/json").entity(customer).build();
