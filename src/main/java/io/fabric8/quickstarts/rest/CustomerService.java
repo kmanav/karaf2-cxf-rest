@@ -170,28 +170,15 @@ public class CustomerService {
      */
     @POST
     @Path("/customers/")
-    //@Consumes({"application/xml", "application/json" })
-    @Consumes({"application/json" })    
-    @ApiOperation(value = "Add a new Customer")
+    @Consumes({"application/json" })
+    @ApiOperation(value = "Add a new Customer", notes = "More notes about this method", response = Customer.class)
     @ApiResponses(value = { @ApiResponse(code = 500, message = "Invalid ID supplied"), })
-    public Customer addCustomer(@ApiParam(value = "Customer object that needs to be updated", required = true)
-                                Customer customer) {
+    public Customer addCustomer(@ApiParam(value = "Customer object that needs to be updated", required = true) Customer customer) {
         LOG.info("Invoking addCustomer, Customer name is: {}", customer.getName());
         customer.setId(++currentId);
-
         customers.put(customer.getId(), customer);
-        //return build().
-         Response.ok().entity(customer).build();
-         return customer;
-        		 
-        //Response.ok().type("application/json").entity(customer).build();
-        /*
-        if (jaxrsContext.getHttpHeaders().getMediaType().getSubtype().equals("json")) {
-            return Response.ok().type("application/json").entity(customer).build();
-        } else {
-            return Response.ok().type("application/xml").entity(customer).build();
-        }
-        */
+        Response.ok().type("application/json").entity(customer).build();
+        return customer;
     }
 
     /**
