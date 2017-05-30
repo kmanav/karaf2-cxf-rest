@@ -1,0 +1,6 @@
+{ "name": "Bob", 
+  "address":"789 Main St",
+  "numOrders" : "104",
+  "revenue" : "2123.45",
+  "type" : "Business"
+  }

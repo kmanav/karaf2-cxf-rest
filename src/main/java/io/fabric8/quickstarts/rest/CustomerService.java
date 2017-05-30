@@ -16,7 +16,9 @@
 package io.fabric8.quickstarts.rest;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -38,6 +40,8 @@ import io.swagger.annotations.ApiResponses;
 import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
 
 /**
  * This Java class with be hosted in the URI path defined by the @Path annotation. @Path annotations on the methods
@@ -99,6 +103,23 @@ public class CustomerService {
         */        
     }
 
+    @GET
+    @Path("/customers/getallcustomers")
+    @Produces("application/json")
+    @ApiOperation(value = "All Customers", notes = "More notes about this method", response = Customer.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 500, message = "Invalid ID supplied"),
+            @ApiResponse(code = 204, message = "Customer not found")
+            })
+    public Map<Long, Customer> getAllCustomer() {
+    
+        LOG.info("Returning all customers : {}");
+        Map<Long, Customer> allCustomers = new HashMap<Long, Customer>();
+        allCustomers.putAll(customers);
+        Response.ok().entity(allCustomers);
+    	return allCustomers;
+    }
+    
     /**
      * Using HTTP PUT, we can can upload the XML representation of a customer object.  This operation will be mapped
      * to the method below and the XML representation will get unmarshaled into a real Customer object using JAXB.
@@ -153,15 +174,17 @@ public class CustomerService {
     @Consumes({"application/json" })    
     @ApiOperation(value = "Add a new Customer")
     @ApiResponses(value = { @ApiResponse(code = 500, message = "Invalid ID supplied"), })
-    public Response addCustomer(@ApiParam(value = "Customer object that needs to be updated", required = true)
+    public Customer addCustomer(@ApiParam(value = "Customer object that needs to be updated", required = true)
                                 Customer customer) {
         LOG.info("Invoking addCustomer, Customer name is: {}", customer.getName());
         customer.setId(++currentId);
 
         customers.put(customer.getId(), customer);
-        return Response.ok().build();
-//        return Response.ok().type("application/json").entity(customer).build();
-
+        //return build().
+         Response.ok().entity(customer).build();
+         return customer;
+        		 
+        //Response.ok().type("application/json").entity(customer).build();
         /*
         if (jaxrsContext.getHttpHeaders().getMediaType().getSubtype().equals("json")) {
             return Response.ok().type("application/json").entity(customer).build();
@@ -169,7 +192,6 @@ public class CustomerService {
             return Response.ok().type("application/xml").entity(customer).build();
         }
         */
-        
     }
 
     /**
@@ -232,13 +254,19 @@ public class CustomerService {
         c.setRevenue(345.78);
         c.setType("Business");
         customers.put(c.getId(), c);
-
+        
+    
+        
+        
         Order o = new Order();
         o.setDescription("order 223");
         o.setId(223);
         orders.put(o.getId(), o);
     }
 
+    
+    
+    
     @Context
     public void setMessageContext(MessageContext messageContext) {
         this.jaxrsContext = messageContext;
