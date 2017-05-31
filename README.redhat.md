@@ -86,10 +86,16 @@ You can use a command-line utility, such as cURL or wget, to perform the HTTP re
     * Create a customer
 
             curl -X POST -T src/test/resources/add_customer.xml -H "Content-Type: text/xml" http://quickstart-cxf-rest.example.com/cxf/crm/customerservice/customers
+            
+            curl -X POST -T src/test/resources/add_customer.json -H "Content-Type: text/json" http://restservice-mankumar-rhmapdemo.apps.rhsademo.net/cxf/crm/customerservice/customers
 
     * Retrieve the customer instance with id 123
 
             curl http://quickstart-cxf-rest.example.com/cxf/crm/customerservice/customers/123
+            
+            curl http://restservice-mankumar-rhmapdemo.apps.rhsademo.net/cxf/crm/customerservice/customers/getallcustomers
+            
+            
 
     * Update the customer instance with id 123
 

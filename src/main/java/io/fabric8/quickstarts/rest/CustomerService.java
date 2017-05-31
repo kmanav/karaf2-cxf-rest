@@ -87,20 +87,9 @@ public class CustomerService {
     public Customer getCustomer(@ApiParam(value = "ID of Customer to fetch", required = true) @PathParam("id") String id) {
         LOG.info("Invoking getCustomer, Customer id is: {}", id);
         long idNumber = Long.parseLong(id);
-        //Customer c = customers.get(idNumber);
         Customer customer = customers.get(idNumber);
-    	//Response.ok().type("application/json").entity(customer);
-    	Response.ok().entity(customer);
+    	Response.ok().entity(customer).build();
         return customer;
-    /*
-        
-        if (jaxrsContext.getHttpHeaders().getMediaType().getSubtype().equals("json")) {
-        	Response.ok().type("application/json").entity(customer);
-        	return customer;
-        } else {
-            return customer;
-        }
-        */        
     }
 
     @GET
@@ -178,7 +167,8 @@ public class CustomerService {
         LOG.info("Invoking addCustomer, Customer name is: {}", customer.getName());
         customer.setId(++currentId);
         customers.put(customer.getId(), customer);
-        Response.ok().type("application/json").entity(customer).build();
+        Response.ok().entity(customer).build();
+        //Response.ok().type("application/json").entity(customer).build();
         return customer;
     }
 
