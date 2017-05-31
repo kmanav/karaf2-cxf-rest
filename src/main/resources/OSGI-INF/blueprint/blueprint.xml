@@ -24,22 +24,15 @@
    and the CXF JAX-RS namespaces.
 -->
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
     xmlns:cxf="http://cxf.apache.org/blueprint/core"
-    xsi:schemaLocation="
-      http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
-      http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd
-      http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
-
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="       http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd       http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd       http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
     <!-- JAXRS providers -->
-    <bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
-
+    <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" id="jsonProvider"/>
     <!-- CXF Swagger2Feature -->
-    <bean id="swagger2Feature" class="org.apache.cxf.jaxrs.swagger.Swagger2Feature">
-      <property name="basePath" value="/cxf/crm"/>
+    <bean class="org.apache.cxf.jaxrs.swagger.Swagger2Feature" id="swagger2Feature">
+        <property name="basePath" value="/cxf/crm"/>
     </bean>
-
     <!--
       The <jaxrs:server/> element sets up our JAX-RS services.  It defines:
       - the server's address, '/crm', relative to the default CXF servlet URI
@@ -47,32 +40,28 @@
       - a list of service beans
         in this example, we refer to another bean defined in this Blueprint XML file with a <ref/> element
     -->
-    <jaxrs:server id="customerService" address="/crm">
+    <jaxrs:server address="/crm" id="customerService">
         <jaxrs:serviceBeans>
             <ref component-id="customerSvc"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
-          <ref component-id="jsonProvider" />
+            <ref component-id="jsonProvider"/>
         </jaxrs:providers>
-          <jaxrs:features>
-            <ref component-id="swagger2Feature" />
-          </jaxrs:features>
-      </jaxrs:server>
-
-      <cxf:bus>
-          <cxf:features>
-            <cxf:logging />
-          </cxf:features>
-          <cxf:properties>
-              <entry key="skip.default.json.provider.registration" value="true" />
-          </cxf:properties>
-      </cxf:bus>
-
-
-      <!--
+        <jaxrs:features>
+            <ref component-id="swagger2Feature"/>
+        </jaxrs:features>
+    </jaxrs:server>
+    <cxf:bus id="bus-c220b11a-4e39-4bb3-a92d-b5493a5cc145">
+        <cxf:features>
+            <cxf:logging/>
+        </cxf:features>
+        <cxf:properties>
+            <entry key="skip.default.json.provider.registration" value="true"/>
+        </cxf:properties>
+    </cxf:bus>
+    <!--
         We are using the OSGi Blueprint XML syntax to define a bean that we referred to in our JAX-RS server setup.
         This bean carries a set of JAX-RS annotations that allow its methods to be mapped to incoming requests.
       -->
-    <bean id="customerSvc" class="io.fabric8.quickstarts.rest.CustomerService"/>
-
+    <bean class="io.fabric8.quickstarts.rest.CustomerService" id="customerSvc"/>
 </blueprint>

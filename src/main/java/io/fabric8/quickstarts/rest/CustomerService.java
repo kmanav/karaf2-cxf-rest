@@ -116,7 +116,7 @@ public class CustomerService {
         LOG.info("Returning all customers : {}");
         Map<Long, Customer> allCustomers = new HashMap<Long, Customer>();
         allCustomers.putAll(customers);
-        Response.ok().entity(allCustomers);
+        Response.ok().entity(allCustomers).build();
     	return allCustomers;
     }
     
@@ -171,6 +171,7 @@ public class CustomerService {
     @POST
     @Path("/customers/")
     @Consumes({"application/json" })
+    @Produces({"application/json" })
     @ApiOperation(value = "Add a new Customer", notes = "More notes about this method", response = Customer.class)
     @ApiResponses(value = { @ApiResponse(code = 500, message = "Invalid ID supplied"), })
     public Customer addCustomer(@ApiParam(value = "Customer object that needs to be updated", required = true) Customer customer) {
